@@ -50,7 +50,7 @@ public class Users {
         this.profileUrl = profileUrl;
     }
 
-    public Users from(String email, String password, String profileUrl, String text) {
+    public static Users from(String email, String password, String profileUrl, String text) {
         return Users.builder()
                 .email(email)
                 .password(password)
