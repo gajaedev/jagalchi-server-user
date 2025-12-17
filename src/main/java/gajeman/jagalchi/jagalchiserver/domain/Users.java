@@ -33,16 +33,16 @@ public class Users {
 
     private String profileUrl;
 
-    private char text;
+    private String text;
 
     @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     @Builder
-    private Users(String email, String password, String profileUrl, char text) {
+    private Users(String email, String password, String profileUrl, String text) {
         this.email = email;
         this.password = password;
         this.text = text;
@@ -50,7 +50,7 @@ public class Users {
         this.profileUrl = profileUrl;
     }
 
-    public Users from(String email, String password, String profileUrl, char text) {
+    public Users from(String email, String password, String profileUrl, String text) {
         return Users.builder()
                 .email(email)
                 .password(password)
