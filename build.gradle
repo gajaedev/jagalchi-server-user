@@ -5,7 +5,6 @@ plugins {
 }
 
 group = 'gajeman.jagalchi'
-version = '0.0.1-SNAPSHOT'
 description = 'jagalchi-server'
 
 java {
