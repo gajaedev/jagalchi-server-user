@@ -1,1 +1,17 @@
-spring.application.name=jagalchi-server
+spring:
+  profiles:
+    active: local
+
+  jpa:
+    database: mysql
+    properties:
+      hibernate:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
