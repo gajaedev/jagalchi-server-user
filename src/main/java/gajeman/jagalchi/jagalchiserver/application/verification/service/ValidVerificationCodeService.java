@@ -14,6 +14,9 @@ public class ValidVerificationCodeService implements ValidVerificationCodeUseCas
 
     private final VerificationRepository verificationRepository;
 
+    /*
+    인증코드 인증용 메서드
+     **/
     @Override
     @Transactional
     public void validVerificationCode(VerifyRequest request) {
