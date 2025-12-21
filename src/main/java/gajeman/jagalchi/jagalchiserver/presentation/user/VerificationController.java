@@ -32,8 +32,8 @@ public class VerificationController {
 
     @PatchMapping("/verification")
     public void validateSignupVerificationCode(
-            @RequestBody VerifyRequest request)
-    {
+            @RequestBody VerifyRequest request
+    ){
         validVerificationCodeService.validVerificationCode(request);
     }
 
