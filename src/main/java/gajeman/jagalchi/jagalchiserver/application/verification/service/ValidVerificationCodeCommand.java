@@ -14,9 +14,10 @@ public class ValidVerificationCodeCommand implements ValidVerificationCodeUseCas
 
     private final VerificationRepository verificationRepository;
 
-    /*
-    인증코드 인증용 메서드
-     **/
+    /**
+    사용자 작성한 인증코드가 올바른지 검증
+    * @param request 인증코드와 이메일 정보를 담은 요청 DTO
+     */
     @Override
     @Transactional
     public void validVerificationCode(VerifyRequest request) {
