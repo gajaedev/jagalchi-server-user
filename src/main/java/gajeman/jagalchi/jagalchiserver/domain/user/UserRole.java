@@ -1,4 +1,4 @@
-package gajeman.jagalchi.jagalchiserver.domain;
+package gajeman.jagalchi.jagalchiserver.domain.user;
 
 public enum UserRole {
     STUDENT,

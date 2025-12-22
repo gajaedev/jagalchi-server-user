@@ -1,4 +1,4 @@
-package gajeman.jagalchi.jagalchiserver.domain;
+package gajeman.jagalchi.jagalchiserver.domain.user;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
