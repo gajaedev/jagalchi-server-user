@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SendVerificationCodeService implements SendVerificationCodeUseCase {
+public class SendVerificationCodeCommand implements SendVerificationCodeUseCase {
 
     private final MailUtil mailUtil;
     private final VerificationRepository verificationRepository;

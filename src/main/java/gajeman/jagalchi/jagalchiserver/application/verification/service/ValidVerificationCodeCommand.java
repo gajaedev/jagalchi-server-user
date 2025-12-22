@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ValidVerificationCodeService implements ValidVerificationCodeUseCase {
+public class ValidVerificationCodeCommand implements ValidVerificationCodeUseCase {
 
     private final VerificationRepository verificationRepository;
 
