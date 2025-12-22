@@ -15,6 +15,10 @@ public class AuthController {
 
     private final ChangePasswordCommand changePasswordCommand;
 
+    /**
+     * 비밀번호 변경 메서드
+     * @param request 이메일, 신규비밀번호를 담은 DTO
+     */
     @PatchMapping("/auth/password-reset")
     public void changePassword(
             @RequestBody ChangePasswordRequest request

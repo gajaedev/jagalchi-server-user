@@ -32,6 +32,10 @@ public class ChangePasswordCommand implements ChangePasswordUseCase {
 
     }
 
+    /**
+     * 비밀번호 인증코드 인증 후 삭제 하는 메서드
+     * @param email 인증객체를 찾기 위한 매개변수
+     */
     private void validate(String email){
         Verification verification = verificationRepository.findByEmail(email)
                 .orElseThrow(()-> new IllegalArgumentException("인증코드를 찾을 수 없습니다"));
