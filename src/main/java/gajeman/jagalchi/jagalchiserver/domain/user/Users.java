@@ -25,6 +25,9 @@ public class Users {
     private String email;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -42,20 +45,18 @@ public class Users {
     private LocalDateTime updatedAt;
 
     @Builder
-    private Users(String email, String password, String profileUrl, String text) {
+    private Users(String email, String name, String password) {
         this.email = email;
+        this.name = name;
         this.password = password;
-        this.text = text;
         this.role = UserRole.STUDENT;
-        this.profileUrl = profileUrl;
     }
 
-    public static Users from(String email, String password, String profileUrl, String text) {
+    public static Users from(String email, String password, String name) {
         return Users.builder()
                 .email(email)
                 .password(password)
-                .text(text)
-                .profileUrl(profileUrl)
+                .name(name)
                 .build();
     }
 
