@@ -16,9 +16,11 @@ public class SendVerificationCodeCommand implements SendVerificationCodeUseCase 
     private final MailUtil mailUtil;
     private final VerificationRepository verificationRepository;
 
-    /*
-    인증코드 보내는 메서드
-     **/
+    /**
+     * 인증코드 보내는 메서드
+     * @param request
+     * @param type
+     */
     @Override
     public void sendVerificationCode(SendVerificationCodeRequest request, VerificationType type){
         Verification verification = Verification.from(request.getEmail(), type);
