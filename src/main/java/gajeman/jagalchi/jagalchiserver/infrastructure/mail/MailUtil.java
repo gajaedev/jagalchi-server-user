@@ -12,6 +12,12 @@ public class MailUtil {
 
     private final JavaMailSender javaMailSender;
 
+    /**
+     * 지정한 이메일 주소로 인증코드를 전송합니다
+     *
+     * @param email 이메일 주소
+     * @param code 이메일에 포함할 인증 코드
+     */
     public void sendMimeMessage(String email, String code) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
