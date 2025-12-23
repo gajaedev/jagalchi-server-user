@@ -129,7 +129,7 @@ public class TokenService {
      *
      * @param id 유저 id
      */
-    private Users getUserById(Long id) {
+    public Users getUserById(Long id) {
         return usersRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
     }
