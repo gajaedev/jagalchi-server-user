@@ -4,7 +4,7 @@ import gajeman.jagalchi.jagalchiserver.application.auth.usecase.SignUpUseCase;
 import gajeman.jagalchi.jagalchiserver.domain.user.Users;
 import gajeman.jagalchi.jagalchiserver.domain.verification.Verification;
 import gajeman.jagalchi.jagalchiserver.domain.verification.VerificationType;
-import gajeman.jagalchi.jagalchiserver.infrastructure.persistence.verification.UsersRepository;
+import gajeman.jagalchi.jagalchiserver.infrastructure.persistence.users.UsersRepository;
 import gajeman.jagalchi.jagalchiserver.infrastructure.persistence.verification.VerificationRepository;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.SignUpRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.response.SignUpResponse;
