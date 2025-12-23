@@ -61,7 +61,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
             } catch (ExpiredJwtException e) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("만료된 토큰");
+                response.getWriter().write("만료된 토큰입니다.");
                 return;
             } catch (Exception e) {
                 logger.error("JWT 파싱에 실패했습니다.", e);
