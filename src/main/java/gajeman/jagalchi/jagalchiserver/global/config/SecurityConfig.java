@@ -2,6 +2,8 @@ package gajeman.jagalchi.jagalchiserver.global.config;
 
 import gajeman.jagalchi.jagalchiserver.infrastructure.jwt.JWTAuthenticationFilter;
 import gajeman.jagalchi.jagalchiserver.infrastructure.jwt.service.TokenService;
+import gajeman.jagalchi.jagalchiserver.infrastructure.oauth2.OAuth2LoginSuccessHandler;
+import gajeman.jagalchi.jagalchiserver.infrastructure.oauth2.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,8 @@ import org.springframework.web.cors.CorsUtils;
 public class SecurityConfig {
 
     private final TokenService tokenService;
+    private final PrincipalOauth2UserService principalOauth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -44,6 +48,13 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(
+                                userInfoEndpoint -> userInfoEndpoint.userService(principalOauth2UserService))
+                        .successHandler(oAuth2LoginSuccessHandler)
+                );
 
         return http.build();
     }
