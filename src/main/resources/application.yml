@@ -35,5 +35,5 @@ spring:
           starttls:
             enable: true
 
-  jwt:
-    secret: ${SECRET_KEY}
+jwt:
+  secret: ${SECRET_KEY}
