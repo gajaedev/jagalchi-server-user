@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class CookieUtil {
 
     private static final String REFRESH_TOKEN = "refreshToken";
-    private static final int REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000; //7주일
+    private static final int REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000; //1주일
 
     public void addRefreshToken(HttpServletResponse response, String token, boolean secure) {
         Cookie cookie = new Cookie(REFRESH_TOKEN, token);
