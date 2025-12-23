@@ -47,7 +47,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 if (user == null) {
                     SecurityContextHolder.clearContext();
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().write("사용자를 찾을 수 없음");
+                    response.getWriter().write("사용자를 찾을 수 없습니다");
                     response.getWriter().flush();
                     return;
                 }
@@ -64,7 +64,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 response.getWriter().write("만료된 토큰");
                 return;
             } catch (Exception e) {
-                logger.error("제이더블유티 파싱에러", e);
+                logger.error("JWT 파싱에 실패했습니다.", e);
             }
         }
 
