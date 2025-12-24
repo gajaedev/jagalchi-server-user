@@ -17,6 +17,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     private final UsersRepository userRepository;
 
+    /**
+     * 로그인 변경 메서드
+     * @param userRequest 로그인용 OAuth2 유저 객체
+     */
     @Override
     @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,6 +47,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         return new PrincipalDetails(user, oauth2User.getAttributes());
     }
 
+    /**
+     * 이메일 확인용 메서드
+     * @param registrationId github/google 구분용
+     * @param oauth2User OAuth2 유저
+     */
     private String getEmail(String registrationId, OAuth2User oauth2User) {
         String email = oauth2User.getAttribute("email");
 
@@ -54,6 +63,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         return email;
     }
 
+    /**
+     * 닉네임 확인용 메서드
+     * @param registrationId github/google 구분용
+     * @param oauth2User OAuth2 유저
+     */
     private String getName(String registrationId, OAuth2User oauth2User) {
         String name = oauth2User.getAttribute("name");
 

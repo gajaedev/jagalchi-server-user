@@ -22,6 +22,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper objectMapper;
     private final CookieUtil cookieUtil;
 
+    /**
+     * 로그인 성공 핸들러
+     * @param request http 요청
+     * @param response 쿠키 세팅용
+     * @param authentication 시큐리티 인증객체
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,

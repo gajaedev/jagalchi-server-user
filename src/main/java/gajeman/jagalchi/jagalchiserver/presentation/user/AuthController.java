@@ -70,6 +70,10 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * 구글 로그인 메서드
+     * @param response 쿠키 세팅용
+     */
     @GetMapping("/auth/login/google")
     public void loginGoogle(
             HttpServletResponse response
@@ -77,6 +81,10 @@ public class AuthController {
         response.sendRedirect("/oauth2/authorization/google");
     }
 
+    /**
+     * 깃허브 로그인 메서드
+     * @param response 쿠키 세팅용
+     */
     @GetMapping("/auth/login/github")
     public void loginGithub(
             HttpServletResponse response
