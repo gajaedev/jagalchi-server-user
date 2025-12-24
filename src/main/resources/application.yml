@@ -12,13 +12,20 @@ spring:
             scope: profile,email
             redirect-uri: ${BASE_URL}/login/oauth2/code/google
 
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope:
+              - user:email
+              - read:user
+
   jpa:
     database: mysql
     properties:
       hibernate:
     generate-ddl: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
 
   datasource:
     url: ${DB_URL}
