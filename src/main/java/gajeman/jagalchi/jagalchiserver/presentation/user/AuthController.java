@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -66,6 +68,13 @@ public class AuthController {
         cookieUtil.addRefreshToken(httpServletResponse, result.refreshToken(), true);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/auth/login/google")
+    public void loginGoogle(
+            HttpServletResponse response
+    ) throws IOException {
+        response.sendRedirect("/oauth2/authorization/google");
     }
   
 }

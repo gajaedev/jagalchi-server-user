@@ -30,6 +30,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     public PrincipalDetails(Users user,Map<String,Object> attributes) {
         this.user = user;
+        this.attributes = attributes;
     }
 
     @Override
