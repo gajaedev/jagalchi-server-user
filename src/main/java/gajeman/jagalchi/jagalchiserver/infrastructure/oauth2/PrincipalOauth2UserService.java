@@ -31,7 +31,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         String email = getEmail(registrationId, oauth2User);
         String name = getName(registrationId, oauth2User);
-        String password = "OAuth2";
 
         Users user = userRepository.findByEmail(email)
                 .orElseGet(() ->
@@ -39,7 +38,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                                 Users.builder()
                                         .email(email)
                                         .name(name)
-                                        .password(password)
+                                        .password(null)
                                         .build()
                         )
                 );
