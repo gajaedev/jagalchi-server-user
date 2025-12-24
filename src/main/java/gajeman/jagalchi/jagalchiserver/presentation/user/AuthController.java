@@ -76,5 +76,12 @@ public class AuthController {
     ) throws IOException {
         response.sendRedirect("/oauth2/authorization/google");
     }
+
+    @GetMapping("/auth/login/github")
+    public void loginGithub(
+            HttpServletResponse response
+    ) throws IOException {
+        response.sendRedirect("/oauth2/authorization/github");
+    }
   
 }
