@@ -11,10 +11,13 @@ import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.SignUpReque
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.response.LoginResponse;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.response.SignUpResponse;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,7 +35,7 @@ public class AuthController {
      */
     @PostMapping
     public ResponseEntity<SignUpResponse> signUp(
-            @RequestBody SignUpRequest request
+            @RequestBody @Valid SignUpRequest request
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -45,7 +48,7 @@ public class AuthController {
      */
     @PatchMapping("/auth/password-reset")
     public void changePassword(
-            @RequestBody ChangePasswordRequest request
+            @RequestBody @Valid ChangePasswordRequest request
     ) {
         changePasswordCommand.changePassword(request);
     }
@@ -56,7 +59,7 @@ public class AuthController {
      */
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(
-            @RequestBody LoginRequest request,
+            @RequestBody @Valid LoginRequest request,
             HttpServletResponse httpServletResponse
     ) {
         LoginResult result = loginCommand.login(request);
@@ -66,6 +69,28 @@ public class AuthController {
         cookieUtil.addRefreshToken(httpServletResponse, result.refreshToken(), true);
 
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 구글 로그인 메서드
+     * @param response 리다이렉트용
+     */
+    @GetMapping("/auth/login/google")
+    public void loginGoogle(
+            HttpServletResponse response
+    ) throws IOException {
+        response.sendRedirect("/oauth2/authorization/google");
+    }
+
+    /**
+     * 깃허브 로그인 메서드
+     * @param response 리다이렉트용
+     */
+    @GetMapping("/auth/login/github")
+    public void loginGithub(
+            HttpServletResponse response
+    ) throws IOException {
+        response.sendRedirect("/oauth2/authorization/github");
     }
   
 }

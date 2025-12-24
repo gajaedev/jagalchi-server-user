@@ -2,6 +2,23 @@ spring:
   profiles:
     active: local
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_OAUTH_KEY}
+            scope: profile,email
+            redirect-uri: ${BASE_URL}/login/oauth2/code/google
+
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope:
+              - user:email
+              - read:user
+
   jpa:
     database: mysql
     properties:

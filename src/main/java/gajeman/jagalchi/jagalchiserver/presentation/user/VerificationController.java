@@ -5,6 +5,7 @@ import gajeman.jagalchi.jagalchiserver.application.verification.service.ValidVer
 import gajeman.jagalchi.jagalchiserver.domain.verification.VerificationType;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.SendVerificationCodeRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.VerifyRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class VerificationController {
      */
     @PostMapping("/verification")
     public void sendSignupVerificationCode(
-            @RequestBody SendVerificationCodeRequest request
+            @RequestBody @Valid SendVerificationCodeRequest request
     ){
         sendVerificationCodeCommand.sendVerificationCode(request, VerificationType.SIGN_UP);
     }
@@ -35,7 +36,7 @@ public class VerificationController {
      */
     @PostMapping("/auth/password-reset")
     public void sendPasswordResetVerificationCode(
-            @RequestBody SendVerificationCodeRequest request
+            @RequestBody @Valid SendVerificationCodeRequest request
     ){
         sendVerificationCodeCommand.sendVerificationCode(request, VerificationType.UPDATE_PASSWORD);
     }
@@ -47,7 +48,7 @@ public class VerificationController {
      */
     @PatchMapping("/verification")
     public void validateSignupVerificationCode(
-            @RequestBody VerifyRequest request
+            @RequestBody @Valid VerifyRequest request
     ){
         validVerificationCodeCommand.validVerificationCode(request);
     }
@@ -59,7 +60,7 @@ public class VerificationController {
      */
     @PatchMapping("/auth/password-reset/verify")
     public void validatePasswordResetVerificationCode(
-            @RequestBody VerifyRequest request
+            @RequestBody @Valid VerifyRequest request
     ){
         validVerificationCodeCommand.validVerificationCode(request);
     }
