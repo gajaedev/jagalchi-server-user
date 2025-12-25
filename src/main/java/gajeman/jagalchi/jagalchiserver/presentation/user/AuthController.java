@@ -118,11 +118,11 @@ public class AuthController {
      * 리프레시 토큰 재발급 메서드
      * @param user 액세스토큰
      */
-    @DeleteMapping("/users")
+    @DeleteMapping
     public ResponseEntity<Void> deleteUsers(
             @AuthenticationPrincipal Users user
     ) {
-        deleteAccountCommand.deleteAccount(user.getId());
+        deleteAccountCommand.deleteAccount(user);
         return ResponseEntity.noContent().build();
     }
   
