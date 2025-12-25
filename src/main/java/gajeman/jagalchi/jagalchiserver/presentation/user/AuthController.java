@@ -3,10 +3,12 @@ package gajeman.jagalchi.jagalchiserver.presentation.user;
 import gajeman.jagalchi.jagalchiserver.application.auth.result.LoginResult;
 import gajeman.jagalchi.jagalchiserver.application.auth.service.ChangePasswordCommand;
 import gajeman.jagalchi.jagalchiserver.application.auth.service.LoginCommand;
+import gajeman.jagalchi.jagalchiserver.application.auth.service.RefreshAccessTokenCommand;
 import gajeman.jagalchi.jagalchiserver.application.auth.service.SignUpCommand;
 import gajeman.jagalchi.jagalchiserver.infrastructure.cookie.CookieUtil;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.ChangePasswordRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.LoginRequest;
+import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.RefreshTokenRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.SignUpRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.response.LoginResponse;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.response.SignUpResponse;
@@ -28,6 +30,7 @@ public class AuthController {
     private final ChangePasswordCommand changePasswordCommand;
     private final LoginCommand loginCommand;
     private final CookieUtil cookieUtil;
+    private final RefreshAccessTokenCommand refreshAccessTokenCommand;
 
     /**
      * 회원가입 메서드
@@ -91,6 +94,24 @@ public class AuthController {
             HttpServletResponse response
     ) throws IOException {
         response.sendRedirect("/oauth2/authorization/github");
+    }
+
+    /**
+     * 리프레시 토큰 재발급 메서드
+     * @param request 리프레시 토큰
+     */
+    @PatchMapping("/auth/refresh")
+    public ResponseEntity<LoginResponse> refreshToken(
+            @Valid @RequestBody RefreshTokenRequest request,
+            HttpServletResponse httpServletResponse
+    ){
+        LoginResult result = refreshAccessTokenCommand.refreshAccessToken(request.getRefreshToken());
+
+        LoginResponse response = LoginResponse.from(result.accessToken());
+
+        cookieUtil.addRefreshToken(httpServletResponse, result.refreshToken(), true);
+
+        return ResponseEntity.ok(response);
     }
   
 }

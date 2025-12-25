@@ -1,5 +1,6 @@
 package gajeman.jagalchi.jagalchiserver.infrastructure.jwt.service;
 
+import gajeman.jagalchi.jagalchiserver.application.auth.result.LoginResult;
 import gajeman.jagalchi.jagalchiserver.domain.user.UserRole;
 import gajeman.jagalchi.jagalchiserver.domain.user.Users;
 import gajeman.jagalchi.jagalchiserver.infrastructure.jwt.domain.RefreshToken;
@@ -46,6 +47,10 @@ public class TokenService {
     public String generateRefreshToken(Users user) {
         Long refreshTokenExpiration = 7 * 24 * 60 * 60 * 1000L; //1시간
 
+        if (refreshTokenRepository.existsById(user.getId())) {
+            refreshTokenRepository.deleteById(user.getId());
+        }
+
         String token = generateToken(user.getId(), user.getRole(), TokenType.REFRESH_TOKEN, refreshTokenExpiration);
 
         refreshTokenRepository.save(RefreshToken.from(user.getId(), token));
@@ -81,7 +86,7 @@ public class TokenService {
      *
      * @param refreshToken 리프레쉬토큰
      */
-    public String refreshAccessToken(String refreshToken) {
+    public LoginResult refreshAccessToken(String refreshToken) {
         Claims claims = parseToken(refreshToken);
 
         String type = claims.get("type", String.class);
@@ -90,6 +95,7 @@ public class TokenService {
         }
 
         Long id = claims.get("id", Long.class);
+
         RefreshToken token = refreshTokenRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("리프레쉬 토큰을 찾을 수 없습니다."));
 
@@ -99,7 +105,7 @@ public class TokenService {
 
         Users user = getUserById(id);
 
-        return generateAccessToken(user);
+        return LoginResult.from(generateAccessToken(user), generateRefreshToken(user));
     }
 
     /**
