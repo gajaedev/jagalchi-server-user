@@ -4,8 +4,8 @@ import gajeman.jagalchi.jagalchiserver.domain.user.Users;
 
 public interface DeleteAccountUseCase {
     /**
-     * 비밀번호 변경 메서드
-     * @param usersId 유저 Id
+     * 유저 비활성화 메서드
+     * @param users 유저 Id
      */
-    void deleteAccount(Users usersId);
+    void deleteAccount(Users users);
 }
