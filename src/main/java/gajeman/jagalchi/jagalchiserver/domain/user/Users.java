@@ -44,6 +44,8 @@ public class Users {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    private boolean isActive = false;
+
     @Builder
     private Users(String email, String name, String password) {
         this.email = email;
@@ -62,6 +64,10 @@ public class Users {
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+    }
+
+    public void changeActive(){
+        this.isActive = !this.isActive;
     }
 
 }
