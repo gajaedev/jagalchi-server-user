@@ -1,10 +1,8 @@
 package gajeman.jagalchi.jagalchiserver.presentation.user;
 
 import gajeman.jagalchi.jagalchiserver.application.auth.result.LoginResult;
-import gajeman.jagalchi.jagalchiserver.application.auth.service.ChangePasswordCommand;
-import gajeman.jagalchi.jagalchiserver.application.auth.service.LoginCommand;
-import gajeman.jagalchi.jagalchiserver.application.auth.service.RefreshAccessTokenCommand;
-import gajeman.jagalchi.jagalchiserver.application.auth.service.SignUpCommand;
+import gajeman.jagalchi.jagalchiserver.application.auth.service.*;
+import gajeman.jagalchi.jagalchiserver.domain.user.Users;
 import gajeman.jagalchi.jagalchiserver.infrastructure.cookie.CookieUtil;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.ChangePasswordRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.dto.request.LoginRequest;
@@ -17,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -31,6 +30,7 @@ public class AuthController {
     private final LoginCommand loginCommand;
     private final CookieUtil cookieUtil;
     private final RefreshAccessTokenCommand refreshAccessTokenCommand;
+    private final DeleteAccountCommand deleteAccountCommand;
 
     /**
      * 회원가입 메서드
@@ -112,6 +112,18 @@ public class AuthController {
         cookieUtil.addRefreshToken(httpServletResponse, result.refreshToken(), true);
 
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 리프레시 토큰 재발급 메서드
+     * @param user 액세스토큰
+     */
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUsers(
+            @AuthenticationPrincipal Users user
+    ) {
+        deleteAccountCommand.deleteAccount(user);
+        return ResponseEntity.noContent().build();
     }
   
 }
