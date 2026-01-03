@@ -24,9 +24,7 @@ services:
       - jagalchi-network
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/hyunwookiim/jagalchi-server:latest
     container_name: jagalchi-server
     environment:
       DB_HOST: mysql
