@@ -11,4 +11,11 @@ public interface QueryUserByNameUseCase {
      * @return 사용자 정보 및 팔로우 통계
      */
     QueryUserResponse getUserByName(String name, Users user);
+
+    /**
+     * 현재 로그인한 사용자 조회 메서드
+     * @param user 현재 로그인한 사용자
+     * @return 사용자 정보 및 팔로우 통계
+     */
+    QueryUserResponse getCurrentUser(Users user);
 }

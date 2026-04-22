@@ -6,6 +6,7 @@ import gajeman.jagalchi.jagalchiserver.domain.user.Users;
 import gajeman.jagalchi.jagalchiserver.global.response.MessageResponse;
 import gajeman.jagalchi.jagalchiserver.presentation.user.request.UpdateProfileRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.response.QueryUserResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class UserController {
     @PatchMapping("/profile")
     public MessageResponse updateProfile(
             @RequestBody UpdateProfileRequest request,
+            @Parameter(hidden = true)
             @AuthenticationPrincipal Users user
     ) {
         updateProfileCommand.updateProfile(user, request);
@@ -41,9 +43,22 @@ public class UserController {
     @GetMapping
     public QueryUserResponse getUserByName(
             @RequestParam("name") String name,
+            @Parameter(hidden = true)
             @AuthenticationPrincipal(errorOnInvalidType = false) Users user
     ) {
         return queryUserByNameUseCase.getUserByName(name, user);
+    }
+
+    /**
+     * 현재 로그인한 사용자 조회 메서드
+     * @param user 현재 로그인한 사용자
+     */
+    @GetMapping("/me")
+    public QueryUserResponse getCurrentUser(
+            @Parameter(hidden = true)
+            @AuthenticationPrincipal Users user
+    ) {
+        return queryUserByNameUseCase.getCurrentUser(user);
     }
 
 }

@@ -6,6 +6,7 @@ import gajeman.jagalchi.jagalchiserver.application.follow.service.ToggleFollowCo
 import gajeman.jagalchi.jagalchiserver.domain.user.Users;
 import gajeman.jagalchi.jagalchiserver.presentation.user.request.FollowToggleRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.user.response.FollowListResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ public class FollowController {
     public void toggleFollow(
             @PathVariable String name,
             @RequestBody FollowToggleRequest request,
+            @Parameter(hidden = true)
             @AuthenticationPrincipal Users user
     ) {
         toggleFollowCommand.toggleFollowing(

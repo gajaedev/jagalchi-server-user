@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -57,7 +56,7 @@ class SendVerificationCodeCommandTest {
     }
 
     @Test
-    void 메일_전송에_실패하면_예외가_전파되고_저장되지_않는다() {
+    void 메일_전송에_실패해도_인증코드는_저장된다() {
         // given
         String email = "test@test.com";
         VerificationType type = VerificationType.SIGN_UP;
@@ -69,12 +68,17 @@ class SendVerificationCodeCommandTest {
                 .given(mailUtil)
                 .sendMimeMessage(eq(email), anyString());
 
-        // when & then
-        assertThatThrownBy(() ->
-                sendVerificationCodeCommand.sendVerificationCode(request, type))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("메일 전송 실패");
+        ArgumentCaptor<Verification> captor = ArgumentCaptor.forClass(Verification.class);
 
-        then(verificationRepository).should(never()).save(any());
+        // when
+        sendVerificationCodeCommand.sendVerificationCode(request, type);
+
+        // then
+        then(verificationRepository).should().save(captor.capture());
+        Verification saved = captor.getValue();
+        assertThat(saved.getEmail()).isEqualTo(email);
+        assertThat(saved.getType()).isEqualTo(type);
+        assertThat(saved.getCode()).isNotNull();
+        assertThat(saved.isVerified()).isFalse();
     }
 }

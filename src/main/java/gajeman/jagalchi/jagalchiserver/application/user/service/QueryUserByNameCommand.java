@@ -32,6 +32,15 @@ public class QueryUserByNameCommand implements QueryUserByNameUseCase {
         Users targetUser = userRepository.findByName(name)
                 .orElseThrow(UserNotFoundException::new);
 
+        return buildResponse(targetUser, currentUser);
+    }
+
+    @Override
+    public QueryUserResponse getCurrentUser(Users user) {
+        return buildResponse(user, user);
+    }
+
+    private QueryUserResponse buildResponse(Users targetUser, Users currentUser) {
         boolean isFollowed = checkFollowStatus(currentUser, targetUser);
 
         long followerCount = followRepository.countByFollowing(targetUser);
