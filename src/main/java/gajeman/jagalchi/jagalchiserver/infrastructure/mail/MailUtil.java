@@ -3,6 +3,8 @@ package gajeman.jagalchi.jagalchiserver.infrastructure.mail;
 import gajeman.jagalchi.jagalchiserver.infrastructure.mail.exception.FailedSendMailException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MailUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(MailUtil.class);
 
     private final JavaMailSender javaMailSender;
 
@@ -123,7 +127,7 @@ public class MailUtil {
             javaMailSender.send(mimeMessage);
 
         } catch (Exception e) {
-            throw new FailedSendMailException();
+            log.warn("메일 전송에 실패했습니다. 테스트 진행을 위해 인증코드는 서버에 유지합니다. email={}", email, e);
         }
     }
 

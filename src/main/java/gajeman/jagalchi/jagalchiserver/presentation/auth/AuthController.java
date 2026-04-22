@@ -6,9 +6,11 @@ import gajeman.jagalchi.jagalchiserver.domain.user.Users;
 import gajeman.jagalchi.jagalchiserver.infrastructure.cookie.CookieUtil;
 import gajeman.jagalchi.jagalchiserver.presentation.auth.dto.request.ChangePasswordRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.auth.dto.request.LoginRequest;
+import gajeman.jagalchi.jagalchiserver.presentation.auth.dto.request.RefreshTokenRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.auth.dto.request.SignUpRequest;
 import gajeman.jagalchi.jagalchiserver.presentation.auth.dto.response.LoginResponse;
 import gajeman.jagalchi.jagalchiserver.presentation.auth.dto.response.SignUpResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -62,11 +64,12 @@ public class AuthController {
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(
             @RequestBody @Valid LoginRequest request,
+            @Parameter(hidden = true)
             HttpServletResponse httpServletResponse
     ) {
         LoginResult result = loginCommand.login(request);
 
-        LoginResponse response = LoginResponse.from(result.accessToken());
+        LoginResponse response = LoginResponse.from(result.accessToken(), result.refreshToken());
 
         cookieUtil.addRefreshToken(httpServletResponse, result.refreshToken(), true);
 
@@ -79,6 +82,7 @@ public class AuthController {
      */
     @GetMapping("/auth/login/google")
     public void loginGoogle(
+            @Parameter(hidden = true)
             HttpServletResponse response
     ) throws IOException {
         response.sendRedirect("/oauth2/authorization/google");
@@ -90,6 +94,7 @@ public class AuthController {
      */
     @GetMapping("/auth/login/github")
     public void loginGithub(
+            @Parameter(hidden = true)
             HttpServletResponse response
     ) throws IOException {
         response.sendRedirect("/oauth2/authorization/github");
@@ -97,17 +102,18 @@ public class AuthController {
 
     /**
      * 리프레시 토큰 재발급 메서드
+     * @param request 리프레시 토큰
      */
     @PatchMapping("/auth/refresh")
     public ResponseEntity<LoginResponse> refreshToken(
-            @CookieValue(name = "refreshToken") String refreshToken,
+            @Valid @RequestBody RefreshTokenRequest request,
+            @Parameter(hidden = true)
             HttpServletResponse httpServletResponse
     ){
-        LoginResult result = refreshAccessTokenCommand.refreshAccessToken(refreshToken);
+        LoginResult result = refreshAccessTokenCommand.refreshAccessToken(request.getRefreshToken());
 
-        LoginResponse response = LoginResponse.from(result.accessToken());
+        LoginResponse response = LoginResponse.from(result.accessToken(), result.refreshToken());
 
-        cookieUtil.addAccessToken(httpServletResponse, result.accessToken(), true);
         cookieUtil.addRefreshToken(httpServletResponse, result.refreshToken(), true);
 
         return ResponseEntity.ok(response);
@@ -119,6 +125,7 @@ public class AuthController {
      */
     @DeleteMapping
     public ResponseEntity<Void> deleteUsers(
+            @Parameter(hidden = true)
             @AuthenticationPrincipal Users user
     ) {
         deleteAccountCommand.deleteAccount(user);
